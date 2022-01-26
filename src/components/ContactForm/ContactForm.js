@@ -1,42 +1,41 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { ContactsForm, ContactsFormBtn } from './ContactForm.styled';
 import PropTypes from 'prop-types';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+export default function ContactForm ({onSubmit}) {
+  const [name, setName] = useState("")
+  const [number, setNumber] = useState("") 
 
-  handlerChangeName = e => {
-    const stateName = e.target.name;
-    this.setState({
-      [stateName]: e.target.value,
-    });
-  };
+  const handlerChangeName = e => {    
+    switch (e.target.name){
+      case "name":
+        return setName(e.target.value)
+      case "number":
+        return setNumber(e.target.value)
+      default:
+        throw new Error();
+    }    
+  }
 
-  handlerSubmitUser = e => {
+  const handlerSubmitUser = e => {
     e.preventDefault();
     const contact = {
       id: nanoid(),
-      name: this.state.name,
-      number: this.state.number,
+      name,
+      number,
     };
-    this.props.onSubmit(contact);
-    this.resetName();
+    onSubmit(contact);
+    resetName();
   };
 
-  resetName = () => {
-    this.setState({ name: '', number: '' });
+  const resetName = () => {
+    setName("");
+    setNumber('');
   };
-
-  render() {
-    const handlerChangeName = this.handlerChangeName;
-    const { name, number } = this.state;
-
+  
     return (
-      <ContactsForm onSubmit={this.handlerSubmitUser}>
+      <ContactsForm onSubmit={handlerSubmitUser}>
         <label>
           Name
           <input
@@ -49,7 +48,6 @@ class ContactForm extends Component {
             required
           />
         </label>
-
         <label>
           Number
           <input
@@ -62,13 +60,11 @@ class ContactForm extends Component {
             required
           />
         </label>
-
         <ContactsFormBtn type="submit">Add contact</ContactsFormBtn>
       </ContactsForm>
     );
-  }
+  
 }
-export default ContactForm;
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
