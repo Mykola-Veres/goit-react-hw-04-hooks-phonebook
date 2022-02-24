@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-
 import { ContactsListBtn, ContactsListItem } from './ContactList.styled';
 
 const ContactItem = ({ contactsItem, onDeleteContact }) =>

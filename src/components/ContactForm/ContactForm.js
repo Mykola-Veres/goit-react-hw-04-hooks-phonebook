@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { ContactsForm, ContactsFormBtn } from './ContactForm.styled';
 import PropTypes from 'prop-types';
+// import { useDispatch } from 'react-redux';
+// import {addContacts} from "../../redux/sliceContacts";
 
 export default function ContactForm ({onSubmit}) {
+  // const dispatch = useDispatch()
   const [name, setName] = useState("")
-  const [number, setNumber] = useState("") 
+  const [number, setNumber] = useState("")
 
-  const handlerChangeName = e => {    
+  const handlerChangeName = e => {
     switch (e.target.name){
       case "name":
         return setName(e.target.value)
@@ -15,7 +18,7 @@ export default function ContactForm ({onSubmit}) {
         return setNumber(e.target.value)
       default:
         throw new Error();
-    }    
+    }
   }
 
   const handlerSubmitUser = e => {
@@ -25,6 +28,7 @@ export default function ContactForm ({onSubmit}) {
       name,
       number,
     };
+    // dispatch(addContacts(contact))
     onSubmit(contact);
     resetName();
   };
@@ -33,7 +37,7 @@ export default function ContactForm ({onSubmit}) {
     setName("");
     setNumber('');
   };
-  
+
     return (
       <ContactsForm onSubmit={handlerSubmitUser}>
         <label>
@@ -63,7 +67,7 @@ export default function ContactForm ({onSubmit}) {
         <ContactsFormBtn type="submit">Add contact</ContactsFormBtn>
       </ContactsForm>
     );
-  
+
 }
 
 ContactForm.propTypes = {
